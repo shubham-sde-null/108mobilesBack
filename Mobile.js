@@ -43,4 +43,10 @@ const MobileSchema = mongoose.Schema({
   leftimage: String,
   rightimage: String,
 });
-export default mongoose.model("MOBILEDATA", MobileSchema);
+const authenticationSchema = mongoose.Schema({
+  email: String,
+  password: String,
+});
+export const Mobile = mongoose.model("MOBILEDATA", MobileSchema);
+export const Authenticate = mongoose.model("AUTHDATA", authenticationSchema);
+// export default mongoose.model("MOBILEDATA", MobileSchema);

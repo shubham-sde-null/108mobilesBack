@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
-import Mobile from "./Mobile.js";
+import { Mobile } from "./Mobile.js";
+import { Authenticate } from "./Mobile.js";
 import cors from "cors";
 import mongoose from "mongoose";
 const app = express();
@@ -19,6 +20,7 @@ mongoose.connect(
 app.get("/", (req, res) => {
   res.send("hello world");
 });
+//start of adding mobile data
 app.get("/mobiledata", async (req, res) => {
   const allMobileData = await Mobile.find();
   res.json(allMobileData);
@@ -37,14 +39,14 @@ app.post("/addmobilename", async (req, res) => {
     dustwaterresistance: req.body.dustwaterresistance,
     brightness: req.body.brightness,
     os: req.body.os,
-    chipset: req.body.processor,
+    chipset: req.body.chipset,
     processorcore: req.body.processorcore,
     gpu: req.body.gpu,
     wideangle: req.body.wideangle,
     ultrawide: req.body.ultrawide,
     depth: req.body.depth,
     macro: req.body.macro,
-    telephoto:req.body.telephoto,
+    telephoto: req.body.telephoto,
     frontcamera: req.body.frontcamera,
     ramvariant1: req.body.ramvariant1,
     ramvariant2: req.body.ramvariant2,
@@ -75,6 +77,27 @@ app.post("/addmobilename", async (req, res) => {
     console.log("ERROR:" + res.json({ message: err }));
   }
 });
+//end of adding mobile data
+//start of adding authenticate data
+app.post("/authenticatedata", async (req, res) => {
+  const credentials = new Authenticate({
+    email: req.body.email,
+    password: req.body.password,
+  });
+  try {
+    const savedAuthenticData = await credentials.save();
+    res.json(savedAuthenticData);
+  } catch (err) {
+    console.log("ERROR:" + res.json({ message: err }));
+  }
+});
+//end of adding authenticate data
+//start of getting the authenticate data
+app.get("/getauthdata", async (req, res) => {
+  const allAUthData = await Authenticate.find();
+  res.json(allAUthData);
+});
+//end of getting the authenticate data
 app.listen(5000, () => {
   console.log("port is started at 5000");
 });
