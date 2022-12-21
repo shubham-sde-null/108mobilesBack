@@ -4,15 +4,16 @@ import { Mobile } from "./Mobile.js";
 import { Authenticate } from "./Mobile.js";
 import cors from "cors";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+const PORT = process.env.PORT;
+const DATABASE = process.env.DATABASE;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-mongoose.connect(
-  "mongodb+srv://shubham:mobiledatabase@cluster0.wa5nlvu.mongodb.net/mobiledb?retryWrites=true&w=majority",
-  () => {
-    console.log("database connection successfull to mongoose atlas");
-  }
-);
+mongoose.connect(DATABASE, () => {
+  console.log("database connection successfull to mongoose atlas");
+});
 // mongoose.connect("mongodb://localhost:27017/mobilenames", () => {
 //   console.log("mongosee connection successful");
 // });
@@ -98,6 +99,6 @@ app.get("/getauthdata", async (req, res) => {
   res.json(allAUthData);
 });
 //end of getting the authenticate data
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log("port is started at 5000");
 });
